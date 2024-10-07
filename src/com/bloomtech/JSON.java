@@ -1,10 +1,13 @@
 package com.bloomtech;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 public class JSON {
 
@@ -14,9 +17,17 @@ public class JSON {
     //         9780151660346
     
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter a book ISBN:");
+        String isbn = scanner.next();
+        String json = fetchBookByISBN(isbn);
 
-        System.out.println("Hello, World!");
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
 
+        OpenLibraryResponse response = gson.fromJson(json, OpenLibraryResponse.class);
+        Book book = response.getDocs().get(0);
+        System.out.println(book);
     }  // End of main
 
     /******************************************************************************
